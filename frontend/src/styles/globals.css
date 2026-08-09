@@ -1,0 +1,34 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-background text-foreground font-vazir;
+  }
+
+  /* المان‌های لاتین (اعداد، کد، متن انگلیسی) از فونت Inter استفاده می‌کنند */
+  [lang="en"],
+  .font-en {
+    @apply font-inter;
+  }
+
+  ::selection {
+    @apply bg-accent/30 text-foreground;
+  }
+}
+
+@layer components {
+  /* عرض محدود و وسط‌چین استاندارد برای محتوای هر صفحه — طبق wireframe-notes.md */
+  .page-container {
+    @apply mx-auto w-full max-w-container px-6;
+  }
+
+  .section-spacing {
+    @apply py-section-mobile md:py-section;
+  }
+}
