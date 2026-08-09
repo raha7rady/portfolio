@@ -1,8 +1,4 @@
-const SOCIAL_LINKS = [
-  { href: "https://github.com/", label: "GitHub" },
-  { href: "https://linkedin.com/", label: "LinkedIn" },
-  { href: "mailto:example@example.com", label: "Email" },
-] as const;
+import { SOCIAL_LINKS } from "@/data/social";
 
 export default function Footer() {
   const year = new Date().getFullYear();
