@@ -1,0 +1,88 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "skills": "Skills",
+    "projects": "Projects",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  },
+  "hero": {
+    "greeting": "Hi, I'm",
+    "name": "sanaz",
+    "tagline": "Junior .NET Backend Developer",
+    "description": "Backend developer focused on C# and ASP.NET Core. Passionate about clean architecture and solving real software problems — from database design to system architecture.",
+    "ctaProjects": "View Projects",
+    "ctaResume": "Download Resume"
+  },
+  "featuredProjects": {
+    "heading": "Featured Projects",
+    "viewDetails": "View details",
+    "comingSoonTitle": "Next Project",
+    "comingSoonDescription": "Currently being designed and built — coming soon.",
+    "comingSoon": "Coming soon"
+  },
+  "about": {
+    "title": "About Me",
+    "bioParagraph1": "Since studying Computer Engineering at Kharazmi University, I've been drawn to backend development — where a system's real logic takes shape. My core focus is C# and ASP.NET Core, and through building StudentInsights I gained hands-on experience designing a Clean Architecture solution, implementing CQRS, and integrating a .NET backend with a React frontend and a Python analytics service.",
+    "bioParagraph2": "Beyond backend, I'm interested in web design, UI/UX, and game development, and I'm always learning new technologies. I believe the best learning comes from building and solving real problems — not just watching tutorials.",
+    "educationTitle": "Education",
+    "educationDegree": "B.Sc. in Computer Engineering — Kharazmi University",
+    "educationStatus": "Class of 1402 (2023) — in progress"
+  },
+  "skills": {
+    "title": "Skills",
+    "description": "Instead of claiming a skill level, I show how much I've actually used each one — whether it's shipped in a real project or something I'm still learning.",
+    "levelProduction": "Used in a real project",
+    "levelPracticed": "Practiced",
+    "levelLearning": "Learning"
+  },
+  "projects": {
+    "title": "Projects",
+    "description": "Projects I've designed and built to solve real problems — not just exercises, but systems with real architecture, business logic, and technical challenges.",
+    "viewCaseStudy": "View Case Study"
+  },
+  "caseStudy": {
+    "back": "Back to projects",
+    "viewGithub": "View on GitHub",
+    "viewLive": "Live demo",
+    "problem": "Problem",
+    "architecture": "Architecture",
+    "myRole": "My Role",
+    "keyDecisions": "Key Technical Decisions",
+    "challenges": "Challenges & Solutions",
+    "challengeLabel": "Challenge",
+    "solutionLabel": "Solution",
+    "notTranslatedNotice": "This case study is currently written in Persian only — an English version is coming soon."
+  },
+  "contact": {
+    "title": "Let's Talk",
+    "description": "Whether it's a job opportunity or a question about my projects — I'd love to hear from you.",
+    "nameLabel": "Name",
+    "emailLabel": "Email",
+    "messageLabel": "Message",
+    "submit": "Send Message",
+    "submitting": "Sending...",
+    "successMessage": "Your message was sent successfully. I'll get back to you soon.",
+    "genericError": "Something went wrong sending your message. Please try again.",
+    "networkError": "Couldn't reach the server. Check your internet connection."
+  },
+  "theme": {
+    "switchToLight": "Switch to light mode",
+    "switchToDark": "Switch to dark mode"
+  },
+  "language": {
+    "switchTo": "فارسی"
+  },
+  "blog": {
+    "title": "Blog",
+    "description": "Technical notes on things I learned while building my projects.",
+    "minRead": "min read",
+    "readMore": "Read more",
+    "back": "Back to blog",
+    "notTranslatedNotice": "This post is currently written in Persian only — an English version is coming soon."
+  }
+}

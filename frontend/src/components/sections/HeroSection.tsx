@@ -16,7 +16,7 @@ export default function HeroSection() {
     <section className="page-container section-spacing">
       <p className="text-sm font-semibold text-accent">سلام، من</p>
       <h1 className="mt-2 text-4xl font-bold text-foreground md:text-5xl">
-        مهتا
+        ساناز دربندی
       </h1>
       <p className="mt-1 text-xl text-muted">Junior .NET Backend Developer</p>
 

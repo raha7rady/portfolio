@@ -37,13 +37,24 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
+// اعمال خودکار Migration در زمان اجرا — مخصوصاً برای docker-compose (فاز ۱۰) لازم است
+// چون یک کانتینر تازه هیچ فایل دیتابیسی ندارد؛ در محیط توسعه محلی هم بی‌ضرر است
+// (اگر پیش‌تر با dotnet ef database update اعمال شده باشد، این خط کاری انجام نمی‌دهد).
+using (var scope = app.Services.CreateScope())
+{
+    var dbContext = scope.ServiceProvider.GetRequiredService<PortfolioDbContext>();
+    dbContext.Database.Migrate();
+}
+
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+// UseHttpsRedirection عمداً حذف شد: در حالت Docker/production معمولاً یک Reverse Proxy
+// یا پلتفرم هاست (Render/Railway) خودش TLS را Terminate می‌کند و کانتینر فقط HTTP
+// می‌بیند؛ نگه‌داشتن این Middleware باعث Redirect به یک پورت HTTPS ناموجود می‌شد.
 app.UseCors(FrontendCorsPolicy);
 
 app.MapContactEndpoints();

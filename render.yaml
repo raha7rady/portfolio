@@ -1,0 +1,33 @@
+services:
+  - type: web
+    name: portfolio-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    healthCheckPath: /api/contact
+    envVars:
+      - key: ConnectionStrings__Default
+        value: Data Source=/data/portfolio.db
+      # آدرس واقعی دامنه فرانت‌اند (Vercel) بعد از دیپلوی فرانت‌اند اینجا ست می‌شود —
+      # sync: false یعنی مقدارش را باید دستی در پنل Render وارد کنی، نه اینجا در کد.
+      - key: Cors__AllowedOrigin
+        sync: false
+      - key: Email__SmtpHost
+        sync: false
+      - key: Email__SmtpPort
+        value: "587"
+      - key: Email__SmtpUsername
+        sync: false
+      - key: Email__SmtpPassword
+        sync: false
+      - key: Email__FromAddress
+        sync: false
+      - key: Email__ToAddress
+        sync: false
+    # نکته مهم (فقط پلن‌های پولی Render از Disk پشتیبانی می‌کنند — پلن Free ندارد):
+    # بدون این، فایل SQLite با هر Deploy/Restart پاک می‌شود. جزئیات در توضیحات فاز ۱۱.
+    disk:
+      name: portfolio-data
+      mountPath: /data
+      sizeGB: 1

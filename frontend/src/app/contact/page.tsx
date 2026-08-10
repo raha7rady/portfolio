@@ -3,7 +3,7 @@ import ContactForm from "@/components/sections/ContactForm";
 import { SOCIAL_LINKS } from "@/data/social";
 
 export const metadata: Metadata = {
-  title: "تماس | مهتا",
+  title: "تماس | ساناز دربندی",
 };
 
 export default function ContactPage() {

@@ -1,13 +1,10 @@
+"use client";
+
 import Card from "@/components/ui/Card";
+import { useLocale } from "@/hooks/useLocale";
 import type { Project } from "@/data/projects";
 
-function Section({
-  title,
-  children,
-}: {
-  title: string;
-  children: React.ReactNode;
-}) {
+function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
     <section className="mt-12">
       <h2 className="text-xl font-semibold text-foreground">{title}</h2>
@@ -17,18 +14,27 @@ function Section({
 }
 
 export default function CaseStudySection({ project }: { project: Project }) {
+  const { locale, dict } = useLocale();
+
   return (
     <div>
-      <Section title="مسئله (Problem)">
+      {/* بدنه کامل Case Study (Problem/Architecture/...) طبق تصمیم فاز ۶ فعلاً فقط فارسی نوشته شده؛
+          عنوان هر بخش ترجمه شده، ولی خودِ متن هنوز فارسی است — این باکس آن را برای خواننده انگلیسی‌زبان شفاف می‌کند. */}
+      {locale === "en" && (
+        <Card className="mt-10 border-accent/40 bg-accent/5">
+          <p className="text-sm text-accent">{dict.caseStudy.notTranslatedNotice}</p>
+        </Card>
+      )}
+
+      <Section title={dict.caseStudy.problem}>
         <p>{project.problem}</p>
       </Section>
 
-      <Section title="معماری (Architecture)">
+      <Section title={dict.caseStudy.architecture}>
         <p>{project.architecture}</p>
-        {/* دیاگرام معماری واقعی (طبق فاز ۱) بعداً به‌صورت تصویر اینجا اضافه می‌شود */}
       </Section>
 
-      <Section title="نقش من (My Role)">
+      <Section title={dict.caseStudy.myRole}>
         <ul className="list-inside list-disc space-y-2">
           {project.myRole.map((item) => (
             <li key={item}>{item}</li>
@@ -36,7 +42,7 @@ export default function CaseStudySection({ project }: { project: Project }) {
         </ul>
       </Section>
 
-      <Section title="تصمیمات فنی کلیدی (Key Technical Decisions)">
+      <Section title={dict.caseStudy.keyDecisions}>
         <ul className="list-inside list-disc space-y-2">
           {project.keyDecisions.map((item) => (
             <li key={item}>{item}</li>
@@ -44,13 +50,17 @@ export default function CaseStudySection({ project }: { project: Project }) {
         </ul>
       </Section>
 
-      <Section title="چالش‌ها و راه‌حل‌ها (Challenges & Solutions)">
+      <Section title={dict.caseStudy.challenges}>
         <div className="space-y-6">
           {project.challenges.map((item) => (
             <Card key={item.challenge}>
-              <p className="text-sm font-semibold text-danger">چالش</p>
+              <p className="text-sm font-semibold text-danger">
+                {dict.caseStudy.challengeLabel}
+              </p>
               <p className="mt-1 text-sm text-foreground/90">{item.challenge}</p>
-              <p className="mt-4 text-sm font-semibold text-success">راه‌حل</p>
+              <p className="mt-4 text-sm font-semibold text-success">
+                {dict.caseStudy.solutionLabel}
+              </p>
               <p className="mt-1 text-sm text-foreground/90">{item.solution}</p>
             </Card>
           ))}

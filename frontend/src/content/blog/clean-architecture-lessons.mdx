@@ -1,0 +1,57 @@
+---
+title: "چیزهایی که از پیاده‌سازی Clean Architecture یاد گرفتم"
+date: "2026-02-14"
+excerpt: "Clean Architecture روی کاغذ ساده به نظر می‌رسد؛ در یک پروژه واقعی با چند نفر، جاهایی گیر می‌کند که هیچ‌کدام از دیاگرام‌های معروف نشانش نمی‌دهند."
+tags: ["Clean Architecture", ".NET", "Software Design"]
+---
+
+قبل از StudentInsights، Clean Architecture را فقط از روی دیاگرام‌های معروف (آن دایره‌های تودرتو) می‌شناختم. بعد از پیاده‌سازی واقعی‌اش در یک پروژه تیمی، چند نکته یاد گرفتم که در هیچ دیاگرامی نبود.
+
+## لایه‌بندی که واقعاً استفاده کردیم
+
+```
+Domain          → موجودیت‌ها و قواعد کسب‌وکار، بدون هیچ وابستگی بیرونی
+Application     → Use Caseها (CQRS + MediatR)، بدون وابستگی به EF Core یا ASP.NET
+Infrastructure  → پیاده‌سازی دسترسی به داده، سرویس‌های خارجی
+WebApi          → کنترلرها، تنظیمات، Middleware
+```
+
+قانون طلایی: هر لایه فقط می‌تواند به لایه‌های داخلی‌تر از خودش وابسته باشد. Domain به هیچ‌چیز وابسته نیست؛ Application فقط به Domain وابسته است؛ Infrastructure به Application و Domain وابسته است.
+
+## جایی که گیر کردیم
+
+بزرگ‌ترین چالش، وسوسه‌ی "میان‌بر زدن" بود. مثلاً وقتی می‌خواستیم یک Query ساده بنویسیم، وسوسه این بود که مستقیم از Controller به DbContext وصل شویم — سریع‌تر بود، ولی مرز لایه‌ها را می‌شکست.
+
+راه‌حلی که به آن پایبند ماندیم: حتی ساده‌ترین Query هم باید از مسیر `Controller → MediatR → Handler → Repository Interface` رد شود. در کوتاه‌مدت کندتر بود، ولی باعث شد وقتی بعداً پیاده‌سازی Repository را تغییر دادیم (مثلاً اضافه‌کردن Cache)، هیچ Controller یا Handler‌ای نیاز به تغییر نداشت.
+
+## نمونه یک Interface در Application، پیاده‌سازی در Infrastructure
+
+```csharp
+// در لایه Application — فقط قرارداد
+public interface ICourseRepository
+{
+    Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
+    Task AddAsync(Course course, CancellationToken cancellationToken);
+}
+
+// در لایه Infrastructure — پیاده‌سازی واقعی با EF Core
+public sealed class CourseRepository : ICourseRepository
+{
+    private readonly AppDbContext _dbContext;
+
+    public CourseRepository(AppDbContext dbContext) => _dbContext = dbContext;
+
+    public Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
+        _dbContext.Courses.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+
+    public async Task AddAsync(Course course, CancellationToken cancellationToken)
+    {
+        await _dbContext.Courses.AddAsync(course, cancellationToken);
+        await _dbContext.SaveChangesAsync(cancellationToken);
+    }
+}
+```
+
+## نتیجه
+
+Clean Architecture برای یک پروژه کوچک احتمالاً بیش‌ازحد است — دقیقاً همان دلیلی که در بک‌اند همین سایت رزومه از یک ساختار سبک‌تر استفاده کردم. ولی برای StudentInsights که چند نفر روی ماژول‌های مختلف کار می‌کردند و قرار بود ماه‌ها توسعه پیدا کند، این مرزبندی صریح باعث شد تغییرات یک ماژول، ماژول‌های دیگر را خراب نکند.

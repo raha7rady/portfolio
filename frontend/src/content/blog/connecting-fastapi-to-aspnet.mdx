@@ -1,0 +1,57 @@
+---
+title: "اتصال سرویس Analytics پایتون به ASP.NET Core"
+date: "2026-01-20"
+excerpt: "StudentInsights یک سرویس مجزای Python برای تحلیل آماری دارد. این یادداشت درباره نحوه یکپارچه‌سازی آن با بک‌اند اصلی است."
+tags: ["Python", "ASP.NET Core", "Integration", "Microservices"]
+---
+
+یکی از بخش‌های جالب StudentInsights این بود که تحلیل‌های آماری (روند پیشرفت، الگوهای مطالعه) در یک سرویس جدا با Python نوشته شده بود، نه در همان بک‌اند ASP.NET Core. این یادداشت درباره این است که چطور این دو بخش را به هم وصل کردیم.
+
+## چرا یک سرویس جدا؟
+
+اکوسیستم Python برای محاسبات آماری (و توسعه احتمالی بعدی به سمت یادگیری ماشین) ابزار غنی‌تری نسبت به C# دارد. به‌جای نوشتن این منطق در بک‌اند اصلی، آن را در یک سرویس مستقل نگه داشتیم که فقط یک مسئولیت دارد: گرفتن داده خام و برگرداندن تحلیل آماری.
+
+## قرارداد بین دو سرویس
+
+بک‌اند اصلی (ASP.NET Core) داده خام (مثلاً لیست StudyLogها) را برای سرویس Python می‌فرستد و نتیجه تحلیل‌شده را پس می‌گیرد. این ارتباط از طریق یک HTTP Client ساده انجام می‌شود:
+
+```csharp
+public sealed class AnalyticsServiceClient : IAnalyticsServiceClient
+{
+    private readonly HttpClient _httpClient;
+
+    public AnalyticsServiceClient(HttpClient httpClient)
+    {
+        _httpClient = httpClient;
+    }
+
+    public async Task<StudyPatternDto> GetStudyPatternAsync(
+        Guid studentId,
+        CancellationToken cancellationToken)
+    {
+        var response = await _httpClient.GetAsync(
+            $"/analytics/study-pattern/{studentId}",
+            cancellationToken);
+
+        response.EnsureSuccessStatusCode();
+
+        return await response.Content
+            .ReadFromJsonAsync<StudyPatternDto>(cancellationToken: cancellationToken)
+            ?? throw new InvalidOperationException("پاسخ سرویس Analytics خالی بود.");
+    }
+}
+```
+
+سمت Python (با FastAPI) هم یک Endpoint ساده دارد که همین قرارداد را برآورده می‌کند:
+
+```python
+@app.get("/analytics/study-pattern/{student_id}")
+def get_study_pattern(student_id: str):
+    logs = fetch_study_logs(student_id)
+    pattern = analyze_pattern(logs)
+    return pattern
+```
+
+## نکته‌ای که یاد گرفتم
+
+مهم‌ترین چیز، تعریف دقیق قرارداد (Contract) بین دو سرویس بود — نه جزئیات پیاده‌سازی داخلی هرکدام. تا وقتی شکل JSON ورودی/خروجی ثابت می‌ماند، تیم Backend و توسعه سرویس Analytics کاملاً مستقل از هم پیش می‌رفتند؛ مستندسازی این Endpointها با Swagger هم کمک کرد که این قرارداد همیشه شفاف و به‌روز بماند.

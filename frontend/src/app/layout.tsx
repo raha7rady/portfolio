@@ -21,9 +21,9 @@ const inter = Inter({
 // متادیتای کامل SEO (Open Graph, sitemap, ...) در فاز ۸ تکمیل می‌شود؛
 // فعلاً فقط عنوان و توضیح پایه برای اجرای صحیح پروژه لازم است.
 export const metadata: Metadata = {
-  title: "مهتا | Junior .NET Backend Developer",
+  title: "ساناز دربندی | Junior .NET Backend Developer",
   description:
-    "پورتفولیو مهتا — توسعه‌دهنده Backend با تمرکز بر C# و ASP.NET Core.",
+    "پورتفولیو ساناز دربندی — توسعه‌دهنده Backend با تمرکز بر C# و ASP.NET Core.",
 };
 
 export default function RootLayout({

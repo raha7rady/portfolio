@@ -10,14 +10,12 @@ export type SkillCategory = {
   skills: Skill[];
 };
 
-// برچسب و رنگ نمایشی هر سطح — یک‌بار تعریف، در همه‌جای UI استفاده می‌شود
-export const SKILL_LEVEL_META: Record<
-  SkillLevel,
-  { label: string; tone: "success" | "accent" | "neutral" }
-> = {
-  production: { label: "استفاده در پروژه واقعی", tone: "success" },
-  practiced: { label: "تمرین‌شده", tone: "accent" },
-  learning: { label: "در حال یادگیری", tone: "neutral" },
+// فقط رنگ (Tone) هر سطح اینجاست — چون رنگ ترجمه نمی‌شود؛ برچسب متنی هر سطح
+// از فرهنگ‌لغت i18n (dict.skills.levelProduction/levelPracticed/levelLearning) خوانده می‌شود.
+export const SKILL_LEVEL_TONE: Record<SkillLevel, "success" | "accent" | "neutral"> = {
+  production: "success",
+  practiced: "accent",
+  learning: "neutral",
 };
 
 export const SKILL_CATEGORIES: SkillCategory[] = [

@@ -1,0 +1,61 @@
+---
+title: "پیاده‌سازی CQRS در StudentInsights"
+date: "2026-03-02"
+excerpt: "چرا در بک‌اند StudentInsights مسیر خواندن را از مسیر نوشتن جدا کردم و این تصمیم عملاً چه شکلی در کد پیدا کرد."
+tags: ["CQRS", "ASP.NET Core", "MediatR", "Architecture"]
+---
+
+وقتی طراحی بک‌اند StudentInsights را شروع کردیم، یکی از اولین تصمیم‌های معماری این بود که Query (خواندن داده) را از Command (تغییر داده) جدا کنیم. این یادداشت درباره این است که چرا این تصمیم را گرفتیم و در عمل چه شکلی شد.
+
+## چرا CQRS؟
+
+بخش‌هایی مثل Dashboard و Analytics حجم بالایی از Queryهای پیچیده دارند — مثلاً محاسبه پیشرفت اهداف، میانگین نمرات وزنی، یا آمار جلسات مطالعه. اگر همه این منطق را در همان Serviceای می‌نوشتیم که مسئول ثبت یک درس جدید یا ویرایش یک امتحان است، آن Service خیلی زود شلوغ و سخت‌نگهداری می‌شد.
+
+با CQRS، هر Query یک Handler مستقل دارد که فقط مسئول خواندن و شکل‌دادن به داده برای نمایش است — بدون هیچ اثر جانبی روی دیتابیس.
+
+## پیاده‌سازی با MediatR
+
+هر Command و Query یک کلاس مجزا است که به یک Handler وصل می‌شود:
+
+```csharp
+public sealed record GetGoalProgressQuery(Guid GoalId) : IRequest<GoalProgressDto>;
+
+public sealed class GetGoalProgressQueryHandler
+    : IRequestHandler<GetGoalProgressQuery, GoalProgressDto>
+{
+    private readonly IGoalRepository _goalRepository;
+
+    public GetGoalProgressQueryHandler(IGoalRepository goalRepository)
+    {
+        _goalRepository = goalRepository;
+    }
+
+    public async Task<GoalProgressDto> Handle(
+        GetGoalProgressQuery request,
+        CancellationToken cancellationToken)
+    {
+        var goal = await _goalRepository.GetByIdAsync(request.GoalId, cancellationToken);
+
+        var progressPercentage = goal.TargetValue == 0
+            ? 0
+            : Math.Min(100, goal.CurrentValue / goal.TargetValue * 100);
+
+        return new GoalProgressDto(goal.Id, goal.Title, progressPercentage);
+    }
+}
+```
+
+کنترلر فقط Query را می‌سازد و به MediatR تحویل می‌دهد — هیچ منطقی داخل کنترلر نیست:
+
+```csharp
+[HttpGet("{goalId:guid}/progress")]
+public async Task<ActionResult<GoalProgressDto>> GetProgress(Guid goalId)
+{
+    var result = await _mediator.Send(new GetGoalProgressQuery(goalId));
+    return Ok(result);
+}
+```
+
+## چیزی که یاد گرفتم
+
+جدا کردن Query از Command باعث شد وقتی بعداً بخش Dashboard را گسترش دادیم (مثلاً اضافه‌کردن UnreadNotificationsCount)، هیچ‌کدام از Commandهای موجود دست نخوردند. هر تغییر در منطق خواندن، فقط به یک Handler جدید محدود می‌ماند — نه به کل Service.

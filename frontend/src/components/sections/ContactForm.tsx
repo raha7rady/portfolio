@@ -5,10 +5,12 @@ import Button from "@/components/ui/Button";
 import Input from "@/components/ui/Input";
 import Textarea from "@/components/ui/Textarea";
 import { submitContactForm } from "@/lib/api";
+import { useLocale } from "@/hooks/useLocale";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
 export default function ContactForm() {
+  const { dict } = useLocale();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
@@ -30,8 +32,14 @@ export default function ContactForm() {
       return;
     }
 
+    // خطاهای Validation از بک‌اند همیشه فارسی برمی‌گردند (طبق تصمیم فاز ۶، ترجمه بک‌اند
+    // خارج از محدوده این فاز است). برای خطای شبکه، پیام کاملاً از دیکشنری locale فعلی می‌آید.
     setStatus("error");
-    setErrors(result.errors);
+    if (result.kind === "network") {
+      setErrors([dict.contact.networkError]);
+    } else {
+      setErrors(result.errors.length > 0 ? result.errors : [dict.contact.genericError]);
+    }
   }
 
   const isSubmitting = status === "submitting";
@@ -40,7 +48,7 @@ export default function ContactForm() {
     <form onSubmit={handleSubmit} className="space-y-4" noValidate>
       <div>
         <label htmlFor="name" className="mb-1.5 block text-sm text-muted">
-          نام
+          {dict.contact.nameLabel}
         </label>
         <Input
           id="name"
@@ -54,7 +62,7 @@ export default function ContactForm() {
 
       <div>
         <label htmlFor="email" className="mb-1.5 block text-sm text-muted">
-          ایمیل
+          {dict.contact.emailLabel}
         </label>
         <Input
           id="email"
@@ -69,7 +77,7 @@ export default function ContactForm() {
 
       <div>
         <label htmlFor="message" className="mb-1.5 block text-sm text-muted">
-          پیام
+          {dict.contact.messageLabel}
         </label>
         <Textarea
           id="message"
@@ -92,12 +100,12 @@ export default function ContactForm() {
 
       {status === "success" && (
         <p className="rounded-card border border-success/40 bg-success/10 p-4 text-sm text-success">
-          پیام شما با موفقیت ارسال شد. به‌زودی پاسخ می‌دهم.
+          {dict.contact.successMessage}
         </p>
       )}
 
       <Button type="submit" variant="primary" disabled={isSubmitting}>
-        {isSubmitting ? "در حال ارسال..." : "ارسال پیام"}
+        {isSubmitting ? dict.contact.submitting : dict.contact.submit}
       </Button>
     </form>
   );

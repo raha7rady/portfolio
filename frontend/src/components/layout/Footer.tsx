@@ -1,4 +1,8 @@
-import { SOCIAL_LINKS } from "@/data/social";
+const SOCIAL_LINKS = [
+  { href: "https://github.com/raha7rady", label: "GitHub" },
+  { href: "https://linkedin.com/", label: "LinkedIn" },
+  { href: "mailto:sanaz7rn@gmail.com", label: "Email" },
+] as const;
 
 export default function Footer() {
   const year = new Date().getFullYear();
@@ -6,7 +10,7 @@ export default function Footer() {
   return (
     <footer className="border-t border-border">
       <div className="page-container flex flex-col items-center justify-between gap-4 py-8 md:flex-row">
-        <p className="text-sm text-muted">© {year} مهتا. تمام حقوق محفوظ است.</p>
+        <p className="text-sm text-muted">© {year} ساناز دربندی. تمام حقوق محفوظ است.</p>
 
         <ul className="flex items-center gap-5">
           {SOCIAL_LINKS.map((link) => (

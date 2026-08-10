@@ -41,14 +41,14 @@ public class ContactServiceTests
     public async Task SubmitAsync_WithValidRequest_SavesMessageAndSendsEmail()
     {
         var service = CreateService(out var repository, out var emailNotifier);
-        var request = new ContactRequestDto("مهتا", "mehta@example.com", "این یک پیام تست معتبر است.");
+        var request = new ContactRequestDto("ساناز", "sanaz7rn@gmail.com", "این یک پیام تست معتبر است.");
 
         var result = await service.SubmitAsync(request, CancellationToken.None);
 
         Assert.True(result.IsSuccess);
         Assert.Empty(result.Errors);
         Assert.NotNull(repository.Saved);
-        Assert.Equal("مهتا", repository.Saved!.Name);
+        Assert.Equal("ساناز", repository.Saved!.Name);
         Assert.Equal(1, emailNotifier.CallCount);
     }
 
@@ -56,7 +56,7 @@ public class ContactServiceTests
     public async Task SubmitAsync_WithInvalidEmail_ReturnsFailureAndDoesNotSave()
     {
         var service = CreateService(out var repository, out var emailNotifier);
-        var request = new ContactRequestDto("مهتا", "not-an-email", "این یک پیام تست معتبر است.");
+        var request = new ContactRequestDto("ساناز", "not-an-email", "این یک پیام تست معتبر است.");
 
         var result = await service.SubmitAsync(request, CancellationToken.None);
 
@@ -70,7 +70,7 @@ public class ContactServiceTests
     public async Task SubmitAsync_WithTooShortMessage_ReturnsFailure()
     {
         var service = CreateService(out var repository, out _);
-        var request = new ContactRequestDto("مهتا", "mehta@example.com", "کوتاه");
+        var request = new ContactRequestDto("ساناز", "sanaz7rn@gmail.com", "کوتاه");
 
         var result = await service.SubmitAsync(request, CancellationToken.None);
 
@@ -85,7 +85,7 @@ public class ContactServiceTests
         var repository = new FakeRepository();
         var throwingNotifier = new ThrowingEmailNotifier();
         var service = new ContactService(repository, throwingNotifier, NullLogger<ContactService>.Instance);
-        var request = new ContactRequestDto("مهتا", "mehta@example.com", "این یک پیام تست معتبر است.");
+        var request = new ContactRequestDto("ساناز", "sanaz7rn@gmail.com", "این یک پیام تست معتبر است.");
 
         var result = await service.SubmitAsync(request, CancellationToken.None);
 

@@ -18,7 +18,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur">
       <nav className="page-container flex h-16 items-center justify-between">
         <Link href="/" className="text-lg font-bold text-foreground">
-          مهتا<span className="text-accent">.</span>
+          ساناز<span className="text-accent">.</span>
         </Link>
 
         <ul className="flex items-center gap-6">

@@ -1,6 +1,35 @@
+@import "highlight.js/styles/github-dark.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* مقادیر رنگ به‌صورت کانال‌های R G B (بدون rgb()) تعریف شده‌اند تا Tailwind بتواند
+   opacity modifier هایی مثل bg-accent/90 یا border-danger/40 را که در فازهای قبل
+   استفاده کرده‌ایم، همچنان درست محاسبه کند. */
+:root {
+  --color-background: 250 250 250;
+  --color-surface: 255 255 255;
+  --color-foreground: 17 24 39;
+  --color-muted: 107 114 128;
+  --color-accent: 8 145 178;
+  --color-accent2: 79 70 229;
+  --color-success: 5 150 105;
+  --color-danger: 220 38 38;
+  --color-border: 229 231 235;
+}
+
+.dark {
+  --color-background: 11 15 20;
+  --color-surface: 18 23 31;
+  --color-foreground: 230 234 240;
+  --color-muted: 139 149 165;
+  --color-accent: 34 211 238;
+  --color-accent2: 99 102 241;
+  --color-success: 52 211 153;
+  --color-danger: 248 113 113;
+  --color-border: 31 39 51;
+}
 
 @layer base {
   html {
@@ -8,10 +37,9 @@
   }
 
   body {
-    @apply bg-background text-foreground font-vazir;
+    @apply bg-background font-vazir text-foreground transition-colors duration-200;
   }
 
-  /* المان‌های لاتین (اعداد، کد، متن انگلیسی) از فونت Inter استفاده می‌کنند */
   [lang="en"],
   .font-en {
     @apply font-inter;
@@ -23,7 +51,6 @@
 }
 
 @layer components {
-  /* عرض محدود و وسط‌چین استاندارد برای محتوای هر صفحه — طبق wireframe-notes.md */
   .page-container {
     @apply mx-auto w-full max-w-container px-6;
   }

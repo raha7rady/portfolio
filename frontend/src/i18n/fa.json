@@ -1,0 +1,79 @@
+{
+  "nav": {
+    "home": "خانه",
+    "about": "درباره من",
+    "skills": "مهارت‌ها",
+    "projects": "پروژه‌ها",
+    "contact": "تماس"
+  },
+  "footer": {
+    "rights": "تمام حقوق محفوظ است."
+  },
+  "hero": {
+    "greeting": "سلام، من",
+    "name": "ساناز",
+    "tagline": "Junior .NET Backend Developer",
+    "description": "توسعه‌دهنده Backend با تمرکز بر C# و ASP.NET Core. علاقه‌مند به طراحی معماری تمیز و حل مسائل واقعی نرم‌افزار — از پایگاه‌داده تا معماری سیستم.",
+    "ctaProjects": "مشاهده پروژه‌ها",
+    "ctaResume": "دانلود رزومه"
+  },
+  "featuredProjects": {
+    "heading": "پروژه‌های ویژه",
+    "viewDetails": "مشاهده جزئیات",
+    "comingSoonTitle": "پروژه بعدی",
+    "comingSoonDescription": "در حال طراحی و توسعه — به‌زودی اضافه می‌شود.",
+    "comingSoon": "به‌زودی"
+  },
+  "about": {
+    "title": "درباره من",
+    "bioParagraph1": "از دوران دانشجویی مهندسی کامپیوتر در دانشگاه خوارزمی، جذب دنیای Backend شدم — جایی که منطق واقعی یک سیستم شکل می‌گیرد. تمرکز اصلی من C# و ASP.NET Core است، و در پروژه StudentInsights تجربه‌ی طراحی معماری Clean Architecture، پیاده‌سازی CQRS، و یکپارچه‌سازی Backend با یک Frontend مبتنی بر React و یک سرویس تحلیل داده در Python را به‌دست آوردم.",
+    "bioParagraph2": "علاوه بر Backend، به طراحی وب، UI/UX و توسعه بازی هم علاقه‌مندم و همیشه در حال یادگیری تکنولوژی‌های جدید هستم. باور دارم بهترین یادگیری از ساختن پروژه‌های واقعی و حل مسائل واقعی به‌دست می‌آید — نه فقط دوره دیدن.",
+    "educationTitle": "تحصیلات",
+    "educationDegree": "کارشناسی مهندسی کامپیوتر — دانشگاه خوارزمی",
+    "educationStatus": "ورودی ۱۴۰۲ — در حال تحصیل"
+  },
+  "skills": {
+    "title": "مهارت‌ها",
+    "description": "به‌جای ادعای سطح، میزان واقعی استفاده از هر مهارت را نشان می‌دهم — اینکه در یک پروژه واقعی به‌کار رفته یا در حال یادگیری‌اش هستم.",
+    "levelProduction": "استفاده در پروژه واقعی",
+    "levelPracticed": "تمرین‌شده",
+    "levelLearning": "در حال یادگیری"
+  },
+  "projects": {
+    "title": "پروژه‌ها",
+    "description": "پروژه‌هایی که برای حل مسائل واقعی طراحی و توسعه داده‌ام — نه صرفاً تمرین، بلکه سیستم‌هایی با معماری، منطق کسب‌وکار و چالش‌های فنی واقعی.",
+    "viewCaseStudy": "مشاهده Case Study"
+  },
+  "caseStudy": {
+    "back": "بازگشت به پروژه‌ها",
+    "viewGithub": "مشاهده در GitHub",
+    "viewLive": "نسخه Live",
+    "problem": "مسئله (Problem)",
+    "architecture": "معماری (Architecture)",
+    "myRole": "نقش من (My Role)",
+    "keyDecisions": "تصمیمات فنی کلیدی (Key Technical Decisions)",
+    "challenges": "چالش‌ها و راه‌حل‌ها (Challenges & Solutions)",
+    "challengeLabel": "چالش",
+    "solutionLabel": "راه‌حل",
+    "notTranslatedNotice": "این Case Study فعلاً فقط به فارسی نوشته شده — نسخه انگلیسی به‌زودی اضافه می‌شود."
+  },
+  "contact": {
+    "title": "بیایید صحبت کنیم",
+    "description": "چه فرصت شغلی مطرح باشد، چه سؤالی درباره پروژه‌هایم — خوشحال می‌شوم پیام شما را دریافت کنم.",
+    "nameLabel": "نام",
+    "emailLabel": "ایمیل",
+    "messageLabel": "پیام",
+    "submit": "ارسال پیام",
+    "submitting": "در حال ارسال...",
+    "successMessage": "پیام شما با موفقیت ارسال شد. به‌زودی پاسخ می‌دهم.",
+    "genericError": "ارسال پیام با خطا مواجه شد. دوباره تلاش کنید.",
+    "networkError": "ارتباط با سرور برقرار نشد. اتصال اینترنت خود را بررسی کنید."
+  },
+  "theme": {
+    "switchToLight": "تغییر به حالت روشن",
+    "switchToDark": "تغییر به حالت تیره"
+  },
+  "language": {
+    "switchTo": "English"
+  }
+}

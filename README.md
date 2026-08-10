@@ -1,26 +1,45 @@
-# Developer Portfolio
+# ساناز دربندی — Developer Portfolio
 
-Personal developer portfolio built as a full-stack monorepo.
+[![Frontend CI](https://github.com/raha7rady/portfolio/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/raha7rady/portfolio/actions/workflows/frontend-ci.yml)
+[![Backend CI](https://github.com/raha7rady/portfolio/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/raha7rady/portfolio/actions/workflows/backend-ci.yml)
 
-The project showcases my technical skills, projects, experience, and
-development journey, with a focus on backend development using C# and
-ASP.NET Core.
+پورتفولیوی شخصی من — یک اپلیکیشن Full-Stack شامل فرانت‌اند Next.js و بک‌اند ASP.NET Core، با Case Study کامل برای هر پروژه و یک بلاگ فنی.
 
-## Tech Stack
+## استک فنی
 
-- Next.js
-- TypeScript
-- React
-- ASP.NET Core
-- C#
-- SQL
-- Git & GitHub
+**Frontend:** Next.js (App Router) · TypeScript · Tailwind CSS · Framer Motion · next-mdx-remote
+**Backend:** ASP.NET Core Minimal API · Entity Framework Core · SQLite
+**زیرساخت:** Docker · GitHub Actions (CI)
 
-## Project Structure
+## اجرای محلی
 
-```text
-portfolio/
-├── frontend/       # Next.js frontend
-├── backend/        # ASP.NET Core backend
-├── docs/           # Project documentation
-└── .github/        # GitHub workflows
+جزئیات کامل نصب و اجرا (با یا بدون Docker) در `docs/` و در چک‌لیست‌های هر فاز پروژه آمده است. خلاصه سریع:
+
+```bash
+# فرانت‌اند
+cd frontend
+npm install
+npm run dev
+
+# بک‌اند (در یک ترمینال جدا)
+cd backend
+dotnet restore
+dotnet run --project src/Portfolio.Api
+```
+
+یا با Docker Compose (هر دو سرویس با هم):
+
+```bash
+cp .env.example .env   # و مقادیر واقعی را پر کن
+docker compose up --build
+```
+
+## ساختار پروژه
+
+```
+frontend/   Next.js app (UI, صفحات، بلاگ MDX)
+backend/    ASP.NET Core API (فرم Contact)
+docs/       اسناد طراحی و معماری پروژه
+```
+
+مستندات کامل‌تر (معماری، تصمیمات طراحی) در `docs/architecture.md` قرار خواهد گرفت.

@@ -1,13 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import Card from "@/components/ui/Card";
 import TechBadgeList from "@/components/projects/TechBadgeList";
+import { useLocale } from "@/hooks/useLocale";
 import type { Project } from "@/data/projects";
 
 export default function ProjectCard({ project }: { project: Project }) {
+  const { locale, dict } = useLocale();
+
   return (
     <Card className="flex flex-col">
-      {/* اسکرین‌شات واقعی هنوز موجود نیست — تا زمان اضافه‌شدن عکس در public/images/projects،
-          یک بلوک نگه‌دارنده به‌جای <img> استفاده می‌شود تا لینک تصویر شکسته نداشته باشیم. */}
       <div
         aria-hidden
         className="flex h-40 items-center justify-center rounded-card bg-gradient-to-br from-accent/10 to-accent2/10 text-sm text-muted"
@@ -15,11 +18,9 @@ export default function ProjectCard({ project }: { project: Project }) {
         Screenshot
       </div>
 
-      <h3 className="mt-4 text-lg font-semibold text-foreground">
-        {project.title}
-      </h3>
+      <h3 className="mt-4 text-lg font-semibold text-foreground">{project.title}</h3>
       <p className="mt-2 text-sm leading-6 text-muted">
-        {project.shortDescription}
+        {project.shortDescription[locale]}
       </p>
 
       <div className="mt-4">
@@ -31,7 +32,7 @@ export default function ProjectCard({ project }: { project: Project }) {
           href={`/projects/${project.slug}`}
           className="text-sm font-semibold text-accent hover:underline"
         >
-          مشاهده Case Study ←
+          {dict.projects.viewCaseStudy} ←
         </Link>
 
         {project.githubUrl && (

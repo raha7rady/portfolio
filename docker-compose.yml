@@ -1,0 +1,39 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "5000:8080"
+    environment:
+      # Connection String دیتابیس داخل کانتینر — روی یک Volume ماندگار ذخیره می‌شود
+      # تا با هر بار docker compose up پاک نشود.
+      ConnectionStrings__Default: "Data Source=/data/portfolio.db"
+      Cors__AllowedOrigin: "http://localhost:3000"
+      Email__SmtpHost: "${EMAIL_SMTP_HOST:-}"
+      Email__SmtpPort: "${EMAIL_SMTP_PORT:-587}"
+      Email__SmtpUsername: "${EMAIL_SMTP_USERNAME:-}"
+      Email__SmtpPassword: "${EMAIL_SMTP_PASSWORD:-}"
+      Email__FromAddress: "${EMAIL_FROM_ADDRESS:-}"
+      Email__ToAddress: "${EMAIL_TO_ADDRESS:-}"
+    volumes:
+      - portfolio-db:/data
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        # نکته مهم: چون NEXT_PUBLIC_API_URL در مرورگر (سمت کلاینت) استفاده می‌شود،
+        # باید آدرس قابل‌دسترس از بیرون کانتینر باشد (localhost:5000 روی هاست)،
+        # نه آدرس داخلی شبکه Docker (مثل http://backend:8080).
+        NEXT_PUBLIC_API_URL: "http://localhost:5000"
+        NEXT_PUBLIC_SITE_URL: "http://localhost:3000"
+        NEXT_PUBLIC_GA_MEASUREMENT_ID: "${NEXT_PUBLIC_GA_MEASUREMENT_ID:-}"
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  portfolio-db:

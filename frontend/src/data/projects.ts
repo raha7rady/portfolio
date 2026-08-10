@@ -3,10 +3,17 @@ export type ProjectChallenge = {
   solution: string;
 };
 
+export type LocalizedText = {
+  fa: string;
+  en: string;
+};
+
 export type Project = {
   slug: string;
   title: string;
-  shortDescription: string;
+  // فقط توضیح کوتاه دو زبانه است (چون کوتاه و کم‌هزینه برای ترجمه است)؛
+  // بدنه کامل Case Study (problem/architecture/...) طبق تصمیم فاز ۶ فعلاً فقط فارسی است.
+  shortDescription: LocalizedText;
   techStack: string[];
   githubUrl?: string;
   liveUrl?: string;
@@ -22,8 +29,10 @@ export const PROJECTS: Project[] = [
   {
     slug: "student-insights",
     title: "StudentInsights",
-    shortDescription:
-      "سامانه مدیریت و تحلیل فعالیت‌های آموزشی دانشجویی — توسعه‌یافته به‌صورت تیمی با Clean Architecture و CQRS.",
+    shortDescription: {
+      fa: "سامانه مدیریت و تحلیل فعالیت‌های آموزشی دانشجویی — توسعه‌یافته به‌صورت تیمی با Clean Architecture و CQRS.",
+      en: "A student academic activity management and analytics platform — built as a team project with Clean Architecture and CQRS.",
+    },
     techStack: [
       "ASP.NET Core Web API",
       "Clean Architecture",

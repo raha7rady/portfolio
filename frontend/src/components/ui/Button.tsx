@@ -5,8 +5,7 @@ type Variant = "primary" | "secondary";
 
 const VARIANT_CLASSES: Record<Variant, string> = {
   primary: "bg-accent text-background hover:bg-accent/90",
-  secondary:
-    "border border-border text-foreground hover:border-accent hover:text-accent",
+  secondary: "border border-border text-foreground hover:border-accent hover:text-accent",
 };
 
 const baseClasses =
@@ -41,8 +40,13 @@ export default function Button(props: LinkProps | NativeButtonProps) {
     );
   }
 
-  const { variant: _variant, children: _children, className: _className, href: _href, ...buttonProps } =
-    props as NativeButtonProps;
+  const {
+    variant: _variant,
+    children: _children,
+    className: _className,
+    href: _href,
+    ...buttonProps
+  } = props as NativeButtonProps;
 
   return (
     <button className={classes} {...buttonProps}>

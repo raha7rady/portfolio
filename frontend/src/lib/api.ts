@@ -6,7 +6,7 @@ export type ContactFormInput = {
 
 export type ContactFormResult =
   | { success: true }
-  | { success: false; errors: string[] };
+  | { success: false; errors: string[]; kind: "validation" | "network" };
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
 
@@ -24,18 +24,21 @@ export async function submitContactForm(
       return { success: true };
     }
 
-    const data = (await response.json().catch(() => null)) as
-      | { errors?: string[] }
-      | null;
+    const data = (await response.json().catch(() => null)) as {
+      errors?: string[];
+    } | null;
 
+    // خطاهای اعتبارسنجی از بک‌اند همیشه فارسی برمی‌گردند (فعلاً بک‌اند ترجمه نشده — تصمیم فاز ۶).
     return {
       success: false,
-      errors: data?.errors ?? ["ارسال پیام با خطا مواجه شد. دوباره تلاش کنید."],
+      errors: data?.errors ?? [],
+      kind: "validation",
     };
   } catch {
     return {
       success: false,
-      errors: ["ارتباط با سرور برقرار نشد. اتصال اینترنت خود را بررسی کنید."],
+      errors: [],
+      kind: "network",
     };
   }
 }
