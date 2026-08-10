@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: portfolio-api
+    name: mehta-portfolio-api
     runtime: docker
     dockerfilePath: ./backend/Dockerfile
     dockerContext: ./backend

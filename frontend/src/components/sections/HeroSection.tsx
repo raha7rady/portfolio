@@ -1,5 +1,9 @@
+"use client";
+
 import Button from "@/components/ui/Button";
 import Badge from "@/components/ui/Badge";
+import FadeIn from "@/components/ui/FadeIn";
+import { useLocale } from "@/hooks/useLocale";
 
 const TECH_BADGES = [
   "C#",
@@ -12,36 +16,43 @@ const TECH_BADGES = [
 ];
 
 export default function HeroSection() {
+  const { dict } = useLocale();
+
   return (
     <section className="page-container section-spacing">
-      <p className="text-sm font-semibold text-accent">سلام، من</p>
-      <h1 className="mt-2 text-4xl font-bold text-foreground md:text-5xl">
-        ساناز دربندی
-      </h1>
-      <p className="mt-1 text-xl text-muted">Junior .NET Backend Developer</p>
+      <FadeIn>
+        <p className="text-sm font-semibold text-accent">{dict.hero.greeting}</p>
+        <h1 className="mt-2 text-4xl font-bold text-foreground md:text-5xl">
+          {dict.hero.name}
+        </h1>
+        <p className="mt-1 text-xl text-muted">{dict.hero.tagline}</p>
 
-      <p className="mt-6 max-w-2xl leading-8 text-foreground/90">
-        توسعه‌دهنده Backend با تمرکز بر C# و ASP.NET Core. علاقه‌مند به طراحی
-        معماری تمیز و حل مسائل واقعی نرم‌افزار — از پایگاه‌داده تا معماری
-        سیستم.
-      </p>
+        <p className="mt-6 max-w-2xl leading-8 text-foreground/90">
+          {dict.hero.description}
+        </p>
 
-      <div className="mt-8 flex flex-wrap gap-4">
-        <Button href="/projects" variant="primary">
-          مشاهده پروژه‌ها
-        </Button>
-        <Button href="/resume.pdf" variant="secondary" target="_blank" rel="noopener noreferrer">
-          دانلود رزومه
-        </Button>
-      </div>
+        <div className="mt-8 flex flex-wrap gap-4">
+          <Button href="/projects" variant="primary">
+            {dict.hero.ctaProjects}
+          </Button>
+          <Button
+            href="/resume.pdf"
+            variant="secondary"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {dict.hero.ctaResume}
+          </Button>
+        </div>
 
-      <ul className="mt-8 flex flex-wrap gap-2">
-        {TECH_BADGES.map((tech) => (
-          <li key={tech}>
-            <Badge tone="neutral">{tech}</Badge>
-          </li>
-        ))}
-      </ul>
+        <ul className="mt-8 flex flex-wrap gap-2">
+          {TECH_BADGES.map((tech) => (
+            <li key={tech}>
+              <Badge tone="neutral">{tech}</Badge>
+            </li>
+          ))}
+        </ul>
+      </FadeIn>
     </section>
   );
 }

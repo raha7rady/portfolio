@@ -6,7 +6,7 @@ namespace Portfolio.Tests;
 public class ContactRequestValidatorTests
 {
     private static ContactRequestDto ValidRequest() =>
-        new("ساناز دربندی", "sanaz7rn@gmail.com", "این یک پیام تست معتبر با طول کافی است.");
+        new("مهتا", "mehta@example.com", "این یک پیام تست معتبر با طول کافی است.");
 
     [Fact]
     public void Validate_WithFullyValidRequest_ReturnsNoErrors()
@@ -65,8 +65,8 @@ public class ContactRequestValidatorTests
     }
 
     [Theory]
-    [InlineData("sanaz7rn@gmail.com")]
-    [InlineData("sanaz.dev+portfolio@gmail.com")]
+    [InlineData("mehta@example.com")]
+    [InlineData("mehta.dev+portfolio@example.co")]
     public void Validate_WithValidEmail_ReturnsNoEmailError(string email)
     {
         var request = ValidRequest() with { Email = email };

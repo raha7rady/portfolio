@@ -17,7 +17,7 @@ export default function AboutContent() {
           aria-hidden
           className="flex h-48 w-48 items-center justify-center rounded-card bg-gradient-to-br from-accent/20 to-accent2/20 text-5xl font-bold text-accent"
         >
-          م
+          س
         </div>
 
         <FadeIn>
