@@ -1,18 +1,12 @@
-# ساناز دربندی — Developer Portfolio
+# ساناز — Developer Portfolio
 
-<!--
-  نکته: آدرس‌های زیر بر اساس ریپوی «Personal Portfolio» ذکرشده در رزومه
-  (github.com/raha7rady/portfolio) تنظیم شده — اگر این سایت را در ریپوی دیگری
-  Push می‌کنی، نام ریپو را در بج‌ها و لینک‌ها اصلاح کن.
--->
 
 [![Frontend CI](https://github.com/raha7rady/portfolio/actions/workflows/frontend-ci.yml/badge.svg)](https://github.com/raha7rady/portfolio/actions/workflows/frontend-ci.yml)
 [![Backend CI](https://github.com/raha7rady/portfolio/actions/workflows/backend-ci.yml/badge.svg)](https://github.com/raha7rady/portfolio/actions/workflows/backend-ci.yml)
 
 پورتفولیوی شخصی من — یک اپلیکیشن Full-Stack شامل فرانت‌اند Next.js و بک‌اند ASP.NET Core، با Case Study کامل برای هر پروژه (نه فقط لیست تکنولوژی) و یک بلاگ فنی با یادداشت‌های واقعی از تجربه‌ی ساخت StudentInsights.
 
-**🔗 Live Demo:** _(بعد از فاز ۱۱ با آدرس دامنه واقعی جایگزین شود)_
-**🔗 GitHub:** [github.com/raha7rady](https://github.com/raha7rady)
+**🔗 Live Demo:** [sanaz.dev](https://samaz.dev) _(بعد از فاز ۱۱ با دامنه واقعی جایگزین شود)_
 
 ---
 
