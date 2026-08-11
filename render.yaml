@@ -1,4 +1,5 @@
 services:
+
   - type: web
     name: portfolio-api
     runtime: docker
@@ -9,7 +10,7 @@ services:
 
     envVars:
       - key: ConnectionStrings__Default
-        value: Data Source=/data/portfolio.db
+        value: Data Source=/tmp/portfolio.db
 
       - key: Cors__AllowedOrigin
         sync: false
