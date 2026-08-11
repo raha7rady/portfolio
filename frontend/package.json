@@ -12,16 +12,16 @@
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "framer-motion": "^11.11.17",
+    "gray-matter": "^4.0.3",
+    "highlight.js": "^11.10.0",
+    "lucide-react": "^0.454.0",
     "next": "^15.1.0",
+    "next-mdx-remote": "^6.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "framer-motion": "^11.11.17",
-    "lucide-react": "^0.454.0",
-    "next-mdx-remote": "^5.0.0",
-    "gray-matter": "^4.0.3",
-    "remark-gfm": "^4.0.0",
     "rehype-highlight": "^7.0.0",
-    "highlight.js": "^11.10.0"
+    "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.14.0",
