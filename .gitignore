@@ -1,23 +1,63 @@
 # ---- Node / Next.js (frontend) ----
+
 node_modules/
 .next/
 out/
+
 .env.local
 .env*.local
+
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pnpm-debug.log*
 
-# ---- .NET (backend — از فاز ۵) ----
+# ---- .NET / ASP.NET Core (backend) ----
+
 bin/
 obj/
+
 *.user
+*.suo
+*.userosscache
+*.sln.docstates
+
 appsettings.Development.json
 
-# ---- OS / Editor ----
-.DS_Store
+# ---- Visual Studio / IDE ----
+
+.vs/
 .vscode/
 .idea/
 
-# ---- Docker Compose (فاز ۱۰) ----
+# ---- OS ----
+
+.DS_Store
+Thumbs.db
+
+# ---- Docker Compose ----
+
 .env
+
+# ---- Logs / temporary files ----
+
+*.log
+*.tmp
+*.temp
+
+# ---- Test / Coverage ----
+
+TestResults/
+coverage/
+*.trx
+
+# ---- Build / Publish ----
+
+publish/
+wwwroot/dist/
+
+# ---- Rider / ReSharper ----
+
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user

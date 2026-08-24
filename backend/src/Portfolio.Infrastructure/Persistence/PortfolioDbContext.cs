@@ -32,6 +32,12 @@ public sealed class PortfolioDbContext : DbContext
 
             entity.Property(e => e.CreatedAtUtc)
                 .IsRequired();
+
+            entity.Property(e => e.IsRead)
+                .IsRequired()
+                .HasDefaultValue(false);
+
+            entity.HasIndex(e => e.IsRead);
         });
     }
 }

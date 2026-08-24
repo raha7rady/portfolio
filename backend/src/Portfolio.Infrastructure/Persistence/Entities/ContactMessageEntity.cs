@@ -7,4 +7,5 @@ public sealed class ContactMessageEntity
     public string Email { get; set; } = string.Empty;
     public string Message { get; set; } = string.Empty;
     public DateTimeOffset CreatedAtUtc { get; set; }
+    public bool IsRead { get; set; }
 }

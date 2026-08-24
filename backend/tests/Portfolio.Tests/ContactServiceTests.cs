@@ -10,10 +10,34 @@ public class ContactServiceTests
     {
         public ContactSubmission? Saved { get; private set; }
 
-        public Task AddAsync(ContactSubmission submission, CancellationToken cancellationToken)
+        public Task AddAsync(
+            ContactSubmission submission,
+            CancellationToken cancellationToken)
         {
             Saved = submission;
             return Task.CompletedTask;
+        }
+
+        public Task<IReadOnlyList<ContactMessageSummary>> GetAllAsync(
+            bool? isRead,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult<IReadOnlyList<ContactMessageSummary>>(
+                Array.Empty<ContactMessageSummary>());
+        }
+
+        public Task<ContactMessageSummary?> GetByIdAsync(
+            Guid id,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult<ContactMessageSummary?>(null);
+        }
+
+        public Task<bool> MarkAsReadAsync(
+            Guid id,
+            CancellationToken cancellationToken)
+        {
+            return Task.FromResult(false);
         }
     }
 

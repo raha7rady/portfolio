@@ -19,10 +19,18 @@ public sealed class EmailSender : IEmailNotifier
 
     public async Task NotifyNewContactAsync(ContactSubmission submission, CancellationToken cancellationToken)
     {
+        if (!_settings.NotificationsEnabled)
+        {
+            _logger.LogInformation(
+                "اعلان ایمیل غیرفعال است (Email:NotificationsEnabled=false) — پیام {Email} فقط در دیتابیس ذخیره شد.",
+                submission.Email);
+            return;
+        }
+
         if (string.IsNullOrWhiteSpace(_settings.SmtpHost) || string.IsNullOrWhiteSpace(_settings.ToAddress))
         {
             _logger.LogWarning(
-                "تنظیمات SMTP کامل نیست — ایمیل برای پیام {Email} ارسال نشد (فقط در محیط توسعه قابل‌قبول است).",
+                "اعلان ایمیل فعال است ولی تنظیمات SMTP کامل نیست — ایمیل برای پیام {Email} ارسال نشد.",
                 submission.Email);
             return;
         }

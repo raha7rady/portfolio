@@ -10,12 +10,14 @@ services:
       # تا با هر بار docker compose up پاک نشود.
       ConnectionStrings__Default: "Data Source=/data/portfolio.db"
       Cors__AllowedOrigin: "http://localhost:3000"
+      Email__NotificationsEnabled: "${EMAIL_NOTIFICATIONS_ENABLED:-false}"
       Email__SmtpHost: "${EMAIL_SMTP_HOST:-}"
       Email__SmtpPort: "${EMAIL_SMTP_PORT:-587}"
       Email__SmtpUsername: "${EMAIL_SMTP_USERNAME:-}"
       Email__SmtpPassword: "${EMAIL_SMTP_PASSWORD:-}"
       Email__FromAddress: "${EMAIL_FROM_ADDRESS:-}"
       Email__ToAddress: "${EMAIL_TO_ADDRESS:-}"
+      Admin__ApiKey: "${ADMIN_API_KEY:-}"
     volumes:
       - portfolio-db:/data
 

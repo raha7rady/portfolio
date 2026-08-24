@@ -22,6 +22,7 @@ builder.Services.AddDbContext<PortfolioDbContext>(options =>
 builder.Services.AddScoped<IContactMessageRepository, ContactMessageRepository>();
 builder.Services.AddScoped<IEmailNotifier, EmailSender>();
 builder.Services.AddScoped<ContactService>();
+builder.Services.AddScoped<ContactAdminService>();
 
 builder.Services.Configure<EmailSettings>(
     builder.Configuration.GetSection(EmailSettings.SectionName));
@@ -42,6 +43,11 @@ builder.Services.AddCors(options =>
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// ---- Error Handling ----
+// خروجی یکدست (RFC 7807 Problem Details) برای هر خطای مدیریت‌نشده،
+// به‌جای نشت Stack Trace یا پیام خام exception به کلاینت.
+builder.Services.AddProblemDetails();
+
 var app = builder.Build();
 
 // ---- Database ----
@@ -60,6 +66,8 @@ if (app.Environment.IsDevelopment())
 }
 
 // ---- Middleware ----
+// باید قبل از هر Middleware/Endpoint دیگری ثبت شود تا خطاهای مدیریت‌نشده در همه مسیرها بگیرد.
+app.UseExceptionHandler();
 app.UseCors(FrontendCorsPolicy);
 
 // ---- Health Check ----
@@ -71,5 +79,9 @@ app.MapGet("/api/health", () =>
 
 // ---- API Endpoints ----
 app.MapContactEndpoints();
+app.MapAdminContactEndpoints();
 
 app.Run();
+
+// برای دسترس‌پذیر بودن کلاس Program برای WebApplicationFactory در تست‌های Integration آینده.
+public partial class Program;

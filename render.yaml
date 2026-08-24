@@ -15,6 +15,9 @@ services:
       - key: Cors__AllowedOrigin
         sync: false
 
+      - key: Email__NotificationsEnabled
+        value: "false"
+
       - key: Email__SmtpHost
         sync: false
 
@@ -31,4 +34,7 @@ services:
         sync: false
 
       - key: Email__ToAddress
+        sync: false
+
+      - key: Admin__ApiKey
         sync: false

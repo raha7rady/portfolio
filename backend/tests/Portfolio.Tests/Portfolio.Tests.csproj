@@ -14,10 +14,16 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <!-- برای تست Repository واقعی (ContactMessageRepository) روی یک DbContext درون‌حافظه‌ای -->
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="8.0.8" />
+    <!-- برای تست End-to-End روی خودِ HTTP Pipeline (AdminApiKeyFilter، Endpointها، Program.cs) -->
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Portfolio.Application\Portfolio.Application.csproj" />
+    <ProjectReference Include="..\..\src\Portfolio.Infrastructure\Portfolio.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\Portfolio.Api\Portfolio.Api.csproj" />
   </ItemGroup>
 
 </Project>
