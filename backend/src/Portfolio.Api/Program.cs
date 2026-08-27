@@ -8,6 +8,10 @@ using Portfolio.Infrastructure.Persistence.Repositories;
 
 Environment.SetEnvironmentVariable("DOTNET_hostBuilder__reloadConfigOnChange", "false");
 
+
+var port = Environment.GetEnvironmentVariable("PORT") ?? "8080";
+Environment.SetEnvironmentVariable("ASPNETCORE_URLS", $"http://+:{port}");
+
 var builder = WebApplication.CreateBuilder(new WebApplicationOptions
 {
     Args = args
