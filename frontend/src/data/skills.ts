@@ -1,4 +1,4 @@
-export type SkillLevel = "production" | "practiced" | "learning";
+export type SkillLevel = "handsOn" | "workingKnowledge" | "learning";
 
 export type Skill = {
   name: string;
@@ -10,11 +10,12 @@ export type SkillCategory = {
   skills: Skill[];
 };
 
-// فقط رنگ (Tone) هر سطح اینجاست — چون رنگ ترجمه نمی‌شود؛ برچسب متنی هر سطح
-// از فرهنگ‌لغت i18n (dict.skills.levelProduction/levelPracticed/levelLearning) خوانده می‌شود.
-export const SKILL_LEVEL_TONE: Record<SkillLevel, "success" | "accent" | "neutral"> = {
-  production: "success",
-  practiced: "accent",
+export const SKILL_LEVEL_TONE: Record<
+  SkillLevel,
+  "success" | "accent" | "neutral"
+> = {
+  handsOn: "success",
+  workingKnowledge: "accent",
   learning: "neutral",
 };
 
@@ -22,37 +23,62 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   {
     title: "Backend & .NET",
     skills: [
-      { name: "C#", level: "production" },
-      { name: "ASP.NET Core / Web API", level: "production" },
-      { name: "Entity Framework Core", level: "production" },
-      { name: "CQRS / MediatR", level: "production" },
-      { name: "Clean Architecture", level: "production" },
-      { name: "REST API Design", level: "production" },
-      { name: "Unit Testing", level: "practiced" },
+      { name: "C#", level: "handsOn" },
+      { name: "ASP.NET Core / Web API", level: "handsOn" },
+      { name: "ASP.NET Core MVC", level: "handsOn" },
+      { name: "Entity Framework Core", level: "handsOn" },
+      { name: "LINQ", level: "handsOn" },
+      { name: "REST API Development", level: "handsOn" },
+      { name: "Dependency Injection", level: "workingKnowledge" },
+      { name: "Clean Architecture", level: "workingKnowledge" },
+      { name: "CQRS / MediatR", level: "workingKnowledge" },
+      { name: "JWT Authentication", level: "workingKnowledge" },
+      { name: "ASP.NET Core Identity", level: "workingKnowledge" },
+      { name: "FluentValidation", level: "workingKnowledge" },
+      { name: "Middleware", level: "workingKnowledge" },
+      { name: "Unit / Integration Testing", level: "workingKnowledge" },
+      { name: "Windows Forms", level: "handsOn" },
     ],
   },
+
   {
     title: "Database",
     skills: [
-      { name: "SQL Server", level: "production" },
-      { name: "Database Design", level: "production" },
-      { name: "MySQL", level: "practiced" },
+      { name: "SQL Server", level: "handsOn" },
+      { name: "Database Design & Data Modeling", level: "handsOn" },
+      { name: "Entity Relationships", level: "handsOn" },
+      { name: "EF Core Migrations", level: "handsOn" },
+      { name: "LINQ / IQueryable", level: "handsOn" },
+      { name: "SQL Queries & CRUD", level: "handsOn" },
+      { name: "MySQL", level: "handsOn" },
+      { name: "SQLite", level: "learning" },
     ],
   },
+
   {
     title: "Frontend",
     skills: [
-      { name: "React", level: "production" },
-      { name: "JavaScript", level: "practiced" },
-      { name: "HTML / CSS", level: "practiced" },
+      { name: "React", level: "learning" },
+      { name: "Next.js", level: "learning" },
+      { name: "TypeScript", level: "learning" },
+      { name: "HTML / CSS", level: "workingKnowledge" },
+      { name: "Tailwind CSS", level: "learning" },
+      { name: "REST API Integration", level: "handsOn" },
+      { name: "Responsive Web Design", level: "workingKnowledge" },
+      { name: "JavaScript", level: "learning" },
     ],
   },
+
   {
-    title: "Tools & Collaboration",
+    title: "Tools & Development",
     skills: [
-      { name: "Git & GitHub", level: "production" },
-      { name: "Postman", level: "production" },
+      { name: "Git & GitHub", level: "handsOn" },
+      { name: "Postman", level: "handsOn" },
+      { name: "Swagger / OpenAPI", level: "handsOn" },
+      { name: "Python", level: "workingKnowledge" },
+      { name: "FastAPI", level: "workingKnowledge" },
       { name: "Docker", level: "learning" },
+      { name: "Deployment & Hosting", level: "learning" },
     ],
   },
 ];

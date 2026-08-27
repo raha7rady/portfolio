@@ -1,4 +1,5 @@
 import type { MDXComponents } from "mdx/types";
+import MdxPre from "@/components/blog/MdxPre";
 
 export const mdxComponents: MDXComponents = {
   h2: (props) => (
@@ -24,16 +25,13 @@ export const mdxComponents: MDXComponents = {
     />
   ),
   blockquote: (props) => (
-    <blockquote className="mt-4 border-r-4 border-accent/40 pr-4 text-muted" {...props} />
+    <blockquote
+      className="mt-4 rounded-lg border-r-4 border-accent/40 bg-surface py-2 pr-4 text-muted"
+      {...props}
+    />
   ),
   code: (props) => (
     <code className="rounded bg-surface px-1.5 py-0.5 text-sm" {...props} />
   ),
-  pre: (props) => (
-    <pre
-      className="ltr mt-4 overflow-x-auto rounded-card border border-border p-4 text-sm"
-      dir="ltr"
-      {...props}
-    />
-  ),
+  pre: ({ children }) => <MdxPre>{children}</MdxPre>,
 };

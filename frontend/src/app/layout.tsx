@@ -27,13 +27,9 @@ const DESCRIPTION_FA =
   "پورتفولیو ساناز دربندی — توسعه‌دهنده Backend با تمرکز بر C# و ASP.NET Core.";
 
 export const metadata: Metadata = {
-  // metadataBase لازم است تا URLهای نسبی (مثل og-image) در تگ‌های OG/Twitter
-  // به آدرس مطلق کامل تبدیل شوند — بدون این، لینک‌ها موقع Share شکن می‌خورند.
   metadataBase: new URL(SITE_URL),
   title: {
     default: SITE_NAME,
-    // هر صفحه با title خودش این الگو را جایگزین می‌کند؛ صفحاتی که title مستقل
-    // ندارند (مثل Home) از default بالا استفاده می‌کنند.
     template: "%s",
   },
   description: DESCRIPTION_FA,
@@ -42,9 +38,14 @@ export const metadata: Metadata = {
     "ساناز دربندی",
     ".NET Developer",
     "ASP.NET Core",
+    "ASP.NET Core Web API",
     "C# Developer",
     "Backend Developer",
     "توسعه‌دهنده بک‌اند",
+    "Entity Framework Core",
+    "Clean Architecture",
+    "CQRS",
+    "Junior .NET Developer",
   ],
   authors: [{ name: "Sanaz Darbandi" }],
   openGraph: {
@@ -76,10 +77,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    // suppressHydrationWarning عمداً روی <html> است: AppInitScript ممکن است
-    // قبل از Hydration مقدار lang/dir/class را (بر اساس ترجیح ذخیره‌شده کاربر)
-    // تغییر دهد؛ این یک ناهماهنگی "منتظره" است، نه یک باگ — الگوی استاندارد
-    // پیاده‌سازی تم/زبان در Next.js (همان روشی که next-themes هم استفاده می‌کند).
+
     <html
       lang="fa"
       dir="rtl"

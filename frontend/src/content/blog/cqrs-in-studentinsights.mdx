@@ -1,6 +1,6 @@
 ---
 title: "پیاده‌سازی CQRS در StudentInsights"
-date: "2026-03-02"
+date: "2026-07-24"
 excerpt: "چرا در بک‌اند StudentInsights مسیر خواندن را از مسیر نوشتن جدا کردم و این تصمیم عملاً چه شکلی در کد پیدا کرد."
 tags: ["CQRS", "ASP.NET Core", "MediatR", "Architecture"]
 ---
@@ -23,18 +23,20 @@ public sealed record GetGoalProgressQuery(Guid GoalId) : IRequest<GoalProgressDt
 public sealed class GetGoalProgressQueryHandler
     : IRequestHandler<GetGoalProgressQuery, GoalProgressDto>
 {
-    private readonly IGoalRepository _goalRepository;
+    private readonly IApplicationDbContext _dbContext;
 
-    public GetGoalProgressQueryHandler(IGoalRepository goalRepository)
+    public GetGoalProgressQueryHandler(IApplicationDbContext dbContext)
     {
-        _goalRepository = goalRepository;
+        _dbContext = dbContext;
     }
 
     public async Task<GoalProgressDto> Handle(
         GetGoalProgressQuery request,
         CancellationToken cancellationToken)
     {
-        var goal = await _goalRepository.GetByIdAsync(request.GoalId, cancellationToken);
+        var goal = await _dbContext.Goals
+            .FirstOrDefaultAsync(g => g.Id == request.GoalId, cancellationToken)
+            ?? throw new NotFoundException(nameof(Goal), request.GoalId);
 
         var progressPercentage = goal.TargetValue == 0
             ? 0
@@ -44,6 +46,8 @@ public sealed class GetGoalProgressQueryHandler
     }
 }
 ```
+
+(Handlerها مستقیماً از انتزاع `IApplicationDbContext` استفاده می‌کنند، نه یک Repository جداگانه — دلیل این تصمیم را در یادداشت [چیزهایی که از پیاده‌سازی Clean Architecture یاد گرفتم](/blog/clean-architecture-lessons) توضیح داده‌ام.)
 
 کنترلر فقط Query را می‌سازد و به MediatR تحویل می‌دهد — هیچ منطقی داخل کنترلر نیست:
 

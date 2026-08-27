@@ -1,0 +1,45 @@
+---
+title: "چرا در StudentInsights از Repository Pattern استفاده نکردیم"
+date: "2026-07-26"
+excerpt: "یک تصمیم معماری که در ابتدا خلاف عادت به نظر می‌رسید: به‌جای یک Repository برای هر Entity، لایه Application فقط از طریق IApplicationDbContext با پایگاه‌داده کار می‌کند."
+tags: ["Clean Architecture", "CQRS", "Entity Framework Core", "Software Design"]
+---
+
+وقتی صحبت از Clean Architecture می‌شود، معمولاً Repository Pattern هم به‌عنوان بخشی جدایی‌ناپذیر از آن معرفی می‌شود — یک Interface برای هر Entity در Application، و پیاده‌سازی آن با EF Core در Infrastructure. در StudentInsights آگاهانه از این الگو استفاده نکردیم و به‌جایش لایه Application فقط از طریق یک انتزاع واحد به نام `IApplicationDbContext` با Persistence ارتباط می‌گیرد.
+
+## چرا این تصمیم؟
+
+دو دلیل اصلی داشتیم:
+
+**۱. تداخل با CQRS.** در معماری CQRS، هر Query مسئول شکل‌دادن دقیق داده‌ای است که خودش نیاز دارد — نه یک مدل عمومی که همه‌جا استفاده شود. وقتی یک Repository با متدهای از پیش تعریف‌شده (`GetById`, `GetAll`, ...) بین Handler و EF Core قرار می‌گیرد، عملاً همان قابلیت `IQueryable` را محدودتر و با یک لایه انتزاع اضافه تکرار می‌کند؛ اغلب اوقات نتیجه‌اش متدهای Repository‌ای بود که فقط برای یک Query خاص ساخته می‌شدند و در جای دیگری استفاده نمی‌شدند.
+
+**۲. حفظ ساختار CQRS در سطح پروژه.** با `IApplicationDbContext`، هر Query Handler می‌تواند مستقیماً با LINQ روی `DbSet`ها، دقیقاً همان شکل داده‌ای که نیاز دارد را بسازد (مثلاً یک `Select` سفارشی به یک DTO مشخص)، بدون این‌که منتظر باشد یک متد جدید به یک Repository اضافه شود.
+
+## شکل عملی این تصمیم
+
+```csharp
+// لایه Application — فقط قرارداد لازم برای Handlerها
+public interface IApplicationDbContext
+{
+    DbSet<Course> Courses { get; }
+    DbSet<Goal> Goals { get; }
+    DbSet<StudyLog> StudyLogs { get; }
+    // ...
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+}
+
+// لایه Infrastructure — پیاده‌سازی واقعی روی EF Core
+public sealed class AppDbContext : DbContext, IApplicationDbContext
+{
+    public DbSet<Course> Courses => Set<Course>();
+    public DbSet<Goal> Goals => Set<Goal>();
+    public DbSet<StudyLog> StudyLogs => Set<StudyLog>();
+    // ...
+}
+```
+
+Handlerها فقط به `IApplicationDbContext` وابسته‌اند، نه به `AppDbContext` واقعی یا EF Core مستقیم — یعنی مرز Clean Architecture (وابستگی Application به Infrastructure) همچنان حفظ می‌شود، بدون این‌که مجبور باشیم برای هر Entity یک Interface و یک کلاس جداگانه بنویسیم.
+
+## نکته‌ای که مهم است
+
+این تصمیم به این معنا نیست که Repository Pattern اشتباه است — در پروژه‌های دیگرم (مثل SuperMarket که با Layered/Onion Architecture ساده‌تری کار می‌کند) از Repository Pattern و Unit of Work استفاده کرده‌ام، چون آنجا Read و Write از یک مسیر یکسان عبور می‌کنند و Repository معنای بیشتری دارد. نکته اصلی این بود: انتخاب الگو باید متناسب با معماری واقعی پروژه باشد، نه یک قاعده ثابت که همیشه به یک شکل پیاده‌سازی می‌شود.

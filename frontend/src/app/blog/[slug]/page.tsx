@@ -7,8 +7,6 @@ import BlogPostShell from "@/components/blog/BlogPostShell";
 import { mdxComponents } from "@/components/blog/mdxComponents";
 import { getAllPostsMeta, getPostBySlug } from "@/lib/mdx";
 
-// نکته فنی مهم (Next.js 15): params یک Promise است و باید await شود —
-// همان اصلاحی که در فاز ۹ روی مسیر Case Study پروژه‌ها هم انجام شد.
 type PageProps = {
   params: Promise<{ slug: string }>;
 };

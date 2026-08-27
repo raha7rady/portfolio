@@ -7,7 +7,9 @@ export default function TechBadgeList({ techs }: { techs: string[] }) {
     <ul className="flex flex-wrap gap-2">
       {techs.map((tech) => (
         <li key={tech}>
-          <Badge tone="accent">{tech}</Badge>
+          <Badge tone="accent" size="sm">
+            {tech}
+          </Badge>
         </li>
       ))}
     </ul>

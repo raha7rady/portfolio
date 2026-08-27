@@ -9,13 +9,11 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import fa from "@/i18n/fa.json";
-import en from "@/i18n/en.json";
+import { translations } from "@/i18n/translations";
 
 export type Locale = "fa" | "en";
-export type Dictionary = typeof fa;
+export type Dictionary = typeof translations.fa;
 
-const DICTIONARIES: Record<Locale, Dictionary> = { fa, en };
 const STORAGE_KEY = "locale";
 
 type LocaleContextValue = {
@@ -53,7 +51,7 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const value = useMemo<LocaleContextValue>(
-    () => ({ locale, dict: DICTIONARIES[locale], setLocale }),
+    () => ({ locale, dict: translations[locale], setLocale }),
     [locale, setLocale],
   );
 

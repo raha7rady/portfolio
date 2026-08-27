@@ -1,6 +1,6 @@
 ---
 title: "چیزهایی که از پیاده‌سازی Clean Architecture یاد گرفتم"
-date: "2026-02-14"
+date: "2026-07-21"
 excerpt: "Clean Architecture روی کاغذ ساده به نظر می‌رسد؛ در یک پروژه واقعی با چند نفر، جاهایی گیر می‌کند که هیچ‌کدام از دیاگرام‌های معروف نشانش نمی‌دهند."
 tags: ["Clean Architecture", ".NET", "Software Design"]
 ---
@@ -22,35 +22,44 @@ WebApi          → کنترلرها، تنظیمات، Middleware
 
 بزرگ‌ترین چالش، وسوسه‌ی "میان‌بر زدن" بود. مثلاً وقتی می‌خواستیم یک Query ساده بنویسیم، وسوسه این بود که مستقیم از Controller به DbContext وصل شویم — سریع‌تر بود، ولی مرز لایه‌ها را می‌شکست.
 
-راه‌حلی که به آن پایبند ماندیم: حتی ساده‌ترین Query هم باید از مسیر `Controller → MediatR → Handler → Repository Interface` رد شود. در کوتاه‌مدت کندتر بود، ولی باعث شد وقتی بعداً پیاده‌سازی Repository را تغییر دادیم (مثلاً اضافه‌کردن Cache)، هیچ Controller یا Handler‌ای نیاز به تغییر نداشت.
+راه‌حلی که به آن پایبند ماندیم: حتی ساده‌ترین Query هم باید از مسیر `Controller → MediatR → Handler → IApplicationDbContext` رد شود، نه مستقیم از Controller. در کوتاه‌مدت کندتر بود، ولی باعث شد منطق Application همیشه همان مسیر واحد را طی کند و مرز لایه‌ها حفظ شود.
 
-## نمونه یک Interface در Application، پیاده‌سازی در Infrastructure
+## چرا Repository Pattern نه، بلکه IApplicationDbContext
+
+یک تصمیم آگاهانه در این پروژه این بود که به‌جای پیاده‌سازی Repository Pattern برای هر Entity، لایه Application فقط از طریق یک انتزاع به نام `IApplicationDbContext` با Persistence کار کند. این انتزاع همان قابلیت‌های DbContext (مثل `DbSet`های موردنیاز) را در قالب یک Interface در دسترس Handlerها می‌گذارد، بدون این‌که Handlerها مستقیماً به EF Core یا Infrastructure وابسته شوند.
 
 ```csharp
 // در لایه Application — فقط قرارداد
-public interface ICourseRepository
+public interface IApplicationDbContext
 {
-    Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken);
-    Task AddAsync(Course course, CancellationToken cancellationToken);
+    DbSet<Course> Courses { get; }
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }
 
 // در لایه Infrastructure — پیاده‌سازی واقعی با EF Core
-public sealed class CourseRepository : ICourseRepository
+public sealed class AppDbContext : DbContext, IApplicationDbContext
 {
-    private readonly AppDbContext _dbContext;
+    public DbSet<Course> Courses => Set<Course>();
+    // ...
+}
 
-    public CourseRepository(AppDbContext dbContext) => _dbContext = dbContext;
+// در لایه Application — یک Query Handler که مستقیماً از انتزاع بالا استفاده می‌کند
+public sealed class GetCourseByIdQueryHandler
+    : IRequestHandler<GetCourseByIdQuery, CourseDto?>
+{
+    private readonly IApplicationDbContext _dbContext;
 
-    public Task<Course?> GetByIdAsync(Guid id, CancellationToken cancellationToken) =>
-        _dbContext.Courses.FirstOrDefaultAsync(c => c.Id == id, cancellationToken);
+    public GetCourseByIdQueryHandler(IApplicationDbContext dbContext) => _dbContext = dbContext;
 
-    public async Task AddAsync(Course course, CancellationToken cancellationToken)
-    {
-        await _dbContext.Courses.AddAsync(course, cancellationToken);
-        await _dbContext.SaveChangesAsync(cancellationToken);
-    }
+    public async Task<CourseDto?> Handle(GetCourseByIdQuery request, CancellationToken cancellationToken) =>
+        await _dbContext.Courses
+            .Where(c => c.Id == request.Id)
+            .Select(c => new CourseDto(c.Id, c.Title))
+            .FirstOrDefaultAsync(cancellationToken);
 }
 ```
+
+این تصمیم عمداً برخلاف الگوی رایج «یک Repository برای هر Entity» بود؛ چون در ساختار CQRS، هر Query خودش مسئول شکل‌دادن به داده‌ی موردنیاز است (با LINQ روی `IQueryable`) و یک لایه Repository اضافه بین Handler و EF Core عملاً همان قابلیت `IQueryable` را محدودتر تکرار می‌کرد.
 
 ## نتیجه
 

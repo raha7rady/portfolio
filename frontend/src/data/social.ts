@@ -3,10 +3,9 @@ export type SocialLink = {
   href: string;
 };
 
-// GitHub و Email از رزومه واقعی وارد شدند؛ LinkedIn طبق رزومه هنوز "در حال ساخت" است —
-// وقتی آماده شد، این placeholder را با لینک واقعی جایگزین کن.
+// GitHub، LinkedIn، Email و شماره تماس مطابق رزومه واقعی.
 export const SOCIAL_LINKS: SocialLink[] = [
   { label: "GitHub", href: "https://github.com/raha7rady" },
-  { label: "LinkedIn", href: "https://linkedin.com/" },
+  { label: "LinkedIn", href: "https://linkedin.com/in/sanaz-darbandi" },
   { label: "Email", href: "mailto:sanaz7rn@gmail.com" },
 ];
