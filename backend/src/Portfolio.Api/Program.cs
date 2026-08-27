@@ -5,7 +5,15 @@ using Portfolio.Infrastructure.Email;
 using Portfolio.Infrastructure.Persistence;
 using Portfolio.Infrastructure.Persistence.Repositories;
 
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args
+});
+
+builder.Configuration.Sources
+    .OfType<Microsoft.Extensions.Configuration.Json.JsonConfigurationSource>()
+    .ToList()
+    .ForEach(source => source.ReloadOnChange = false);
 
 const string FrontendCorsPolicy = "FrontendCorsPolicy";
 
